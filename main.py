@@ -153,13 +153,19 @@ def home():
         # if flag == 4
 
         print(companies[k])
-        url = "https://stocknewsapi.com/api/v1?tickers="+"FB"+"&items=50&token=2rxzbj7p0byo3112gizrcvauspbotqoztagzp5ij"
+        url = "https://stocknewsapi.com/api/v1?tickers="+companies[k]+"&items=50&token=2rxzbj7p0byo3112gizrcvauspbotqoztagzp5ij"
         sock = urllib2.urlopen(url)
         global json_obj
         json_obj=json.load(sock)
+        objs = json_obj["data"]
+        sentiments=[]
+        n = len(objs)
+        for i in range(0,n):
+            sentiments.append(objs[i]["sentiment"])
         htmlsource = sock.read()
+        json.load
         sock.close()
-        return render_template("results.html",json_obj=json_obj)
+        return render_template("results.html",sentiments = sentiments)
     else:
         return render_template("home.html")
 
