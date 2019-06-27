@@ -85,12 +85,6 @@ app = Flask(__name__)
 @app.route('/', methods=["GET","POST"])
 def home():
     if request.method == "POST":
-        url = "https://stocknewsapi.com/api/v1?tickers=FB&items=50&token=2rxzbj7p0byo3112gizrcvauspbotqoztagzp5ij"
-        sock = urllib2.urlopen(url)
-        global json_obj
-        json_obj=json.load(sock)
-        htmlsource = sock.read()
-        sock.close()
         query = request.form["query"]
         query = str(query)
         query = query.lower()
@@ -134,6 +128,7 @@ def home():
 
         df = pd.read_csv("companylist.csv")
         saved_column = df.Name
+        company_tag = df.Symbol
         companies=[]
         list=[]
 
@@ -142,9 +137,28 @@ def home():
         	z=z.split(',')[0]
         	z=z.split('.')[0]
         	list.append(z)
+            	companies.append(company_tag[i])
 
         print(list[0])
+        company = ""
+        for j in words:
+        	for k in range(0,3482):
+        		list[k] = list[k].lower()
+        		if list[k]==j:
+        			company = j
+        			break
+        print("ans")
+        if company == "":
+        	flag = 4
+        # if flag == 4
 
+        print(companies[k])
+        url = "https://stocknewsapi.com/api/v1?tickers="+"FB"+"&items=50&token=2rxzbj7p0byo3112gizrcvauspbotqoztagzp5ij"
+        sock = urllib2.urlopen(url)
+        global json_obj
+        json_obj=json.load(sock)
+        htmlsource = sock.read()
+        sock.close()
         return render_template("results.html",json_obj=json_obj)
     else:
         return render_template("home.html")
