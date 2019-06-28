@@ -1,9 +1,42 @@
 <html>
 <body>
-  {%for i in sentiments%}
-  <h1>{{i}}</h1>
-  {%endfor%}
-  <input type="text" name = "query" placeholder="whats in your mind?" required size=30><br>
-  <button type="submit" class="signupbtn">Submit</button>
+<h1>  {{company}} </h1>
+  {%if ans>0 %}
+  {%if verb == "sell"%}
+  <h1>Recommendation: <em>Sell</em></h1>
+  {%endif%}
+  {%if verb == "buy"%}
+  <h1>Recommendation:<em>Don't Buy</em></h1>
+  {%endif%}
+  {%endif%}
+
+  {% if ans < 0 %}
+  {%if verb == "sell"%}
+  <h1>Recommendation: <em>Hold</em></h1>
+  {%endif%}
+  {%if verb == "buy"%}
+  <h1>Recommendation:<em>Buy Soon!</em></h1>
+  {%endif%}
+  {%endif%}
+
+  {% if ans == 0 %}
+  {%if verb == "sell"%}
+  <h1>Recommendation: <em>Hold</em></h1>
+  {%endif%}
+  {%if verb == "buy"%}
+  <h1>Recommendation:<em>Hold!</em></h1>
+  {%endif%}
+  {%endif%}
+
+  {%if verb == ""%}
+  <h1> please give a valid query!<h1>
+  {%endif%}
+  <br>
+  <h1>{{news1}}</h1><br>
+  <h1>{{news2}}</h1>
+
+
+
+
 </body>
 </html>

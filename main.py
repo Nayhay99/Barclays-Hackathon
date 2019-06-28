@@ -112,16 +112,17 @@ def home():
         # Flag is used for checking. If flag == 1, its buying query. If flag == 2, its selling_queryself.
         # if Flag == 0. query is invalid
         flag = 0
+        verb = ""
         if selling_query == 1:
             flag = 2
         elif buying_query>0:
             flag=1
-        print("here")
+        #print("here")
         if flag==2:
-        	print("sell")
+        	verb = "sell"
 
         elif flag==1:
-        	print("BUY")
+        	verb ="buy"
 
         else:
             print("Invalid Query")
@@ -147,25 +148,57 @@ def home():
         		if list[k]==j:
         			company = j
         			break
-        print("ans")
         if company == "":
         	flag = 4
         # if flag == 4
 
-        print(companies[k])
+        #print(companies[k])
         url = "https://stocknewsapi.com/api/v1?tickers="+companies[k]+"&items=50&token=2rxzbj7p0byo3112gizrcvauspbotqoztagzp5ij"
         sock = urllib2.urlopen(url)
         global json_obj
         json_obj=json.load(sock)
         objs = json_obj["data"]
         sentiments=[]
+        ans = 0
         n = len(objs)
+
         for i in range(0,n):
             sentiments.append(objs[i]["sentiment"])
+            if objs[i]["sentiment"] == "Positive" :
+                ans = ans+1
+            elif objs[i]["sentiment"] == "Negative":
+                ans=ans-1
+            else:
+                ans=ans
         htmlsource = sock.read()
         json.load
         sock.close()
-        return render_template("results.html",sentiments = sentiments)
+        new1=""
+        news2=""
+        if ans>0:
+            url = "https://stocknewsapi.com/api/v1?tickers="+companies[k]+"&items=2&sentiment=positive&token=2rxzbj7p0byo3112gizrcvauspbotqoztagzp5ij"
+            sock = urllib2.urlopen(url)
+            json_obj=json.load(sock)
+            news1 = json_obj["data"][0]["title"]
+            news2 = json_obj["data"][1]["title"]
+        if ans<0:
+            url = "https://stocknewsapi.com/api/v1?tickers="+companies[k]+"&items=2&sentiment=negative&token=2rxzbj7p0byo3112gizrcvauspbotqoztagzp5ij"
+            sock = urllib2.urlopen(url)
+            json_obj=json.load(sock)
+            news1 = json_obj["data"][0]["title"]
+            news2 = json_obj["data"][1]["title"]
+        else:
+            url = "https://stocknewsapi.com/api/v1?tickers="+companies[k]+"&items=2&sentiment=neutral&token=2rxzbj7p0byo3112gizrcvauspbotqoztagzp5ij"
+            sock = urllib2.urlopen(url)
+            json_obj=json.load(sock)
+            news1 = json_obj["data"][0]["title"]
+            news2 = json_obj["data"][1]["title"]
+
+
+        sentiments=[]
+        ans = 0
+        n = len(objs)
+        return render_template("results.html",news1=news1,news2=news2,verb=verb, ans=ans, sentiments = sentiments,company = company)
     else:
         return render_template("home.html")
 
