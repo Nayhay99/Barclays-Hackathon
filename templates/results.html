@@ -1,6 +1,5 @@
 <html>
 <body>
-<h1>  {{company}} </h1>
   {%if ans>0 %}
   {%if verb == "sell"%}
   <h1>Recommendation: <em>Sell</em></h1>
@@ -29,14 +28,14 @@
   {%endif%}
 
   {%if verb == ""%}
-  <h1> please give a valid query!<h1>
+  <h1> Please give a valid query!<h1>
   {%endif%}
   <br>
-  <h1>{{news1}}</h1><br>
-  <h1>{{news2}}</h1>
-
-
-
+  <p style="font-size: 25px">The Recent News regarding {{company}} are:</p>
+  <ul style="font-size: 15px">
+    <li>{{news1}}</li>
+    <li>{{news2}}</li>
+  </ul>
 
 </body>
 </html>

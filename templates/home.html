@@ -1,7 +1,16 @@
 <html>
+<head>
+  <style>
+    body{
+      background-color: cyan;
+      text-align: center;
+      padding: 25%;
+    }
+  </style>
+</head>
 <body>
-  <form action="{{url_for("home")}}" method='post' style="border:1px solid #808080">
-  <input type="text" name = "query" placeholder="what's in your mind?" required size=30><br>
+  <form action="{{url_for("home")}}" method='post' style="border:1px solid #; padding 10px">
+  <input type="text" name = "query" placeholder="what's in your mind?" required size=30 "><br>
   <button type="submit" class="signupbtn">Submit</button>
   </form>
 </body>
